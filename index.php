@@ -1,5 +1,5 @@
 <?php
-// Database configuration
+
 $dbHost = "localhost"; // Hostname
 $dbUser = "root"; // MySQL username
 $dbPassword = ""; // MySQL password
@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
 
-    // Query to check if the username and password match
+
     $query = "SELECT id FROM user WHERE email = ? AND password = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ss", $username, $password);
@@ -25,18 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_result($userId);
 
     if ($stmt->num_rows == 1) {
-        // Login successful, store user ID in session and redirect
+
         $_SESSION["user_id"] = $userId;
         header("location: dashboard.php");
     } else {
-        // Login failed, display an error message
+
         echo "Invalid username or password.";
     }
 
     $stmt->close();
 }
 
-// Close the database connection
+
 $conn->close();
 ?>
 

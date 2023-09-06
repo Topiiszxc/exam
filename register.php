@@ -1,5 +1,5 @@
 <?php
-// Database configuration
+
 $dbHost = "localhost"; // Hostname
 $dbUser = "root"; // MySQL username
 $dbPassword = ""; // MySQL password
@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    // Check if the username or email is already registered
     $checkQuery = "SELECT id FROM user WHERE name = ? OR email = ?";
     $stmt = $conn->prepare($checkQuery);
     $stmt->bind_param("ss", $username, $email);
@@ -27,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->num_rows > 0) {
         echo "Username or email already exists. Please choose another.";
     } else {
-        // Insert the new user into the database
+
         $insertQuery = "INSERT INTO user (name, email, password) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($insertQuery);
         $stmt->bind_param("sss", $username, $email, $password);
@@ -40,8 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt->close();
 }
-
-// Close the database connection
 
 ?>
 
