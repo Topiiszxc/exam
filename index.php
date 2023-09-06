@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-
 if (isset($_SESSION['user_id'])) {
     header("Location: dashboard.php");
     exit;
@@ -10,20 +8,13 @@ $dbHost = "localhost";
 $dbUser = "root"; 
 $dbPassword = ""; 
 $dbName = "exam"; 
-
 $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
-
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
-
-
     $query = "SELECT id FROM user WHERE email = ? AND password = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("ss", $username, $password);
@@ -36,19 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["user_id"] = $userId;
         header("location: dashboard.php");
     } else {
-
         echo "Invalid username or password.";
     }
-
     $stmt->close();
 }
-
-
 $conn->close();
 ?>
-
-
-
 
 
 <!DOCTYPE html>
@@ -62,7 +46,6 @@ $conn->close();
             font-family: Arial, Helvetica, sans-serif;
             background-color: #f2f2f2;
         }
-
         .container {
             max-width: 400px;
             margin: 0 auto;
@@ -71,32 +54,26 @@ $conn->close();
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-
         h2 {
             text-align: center;
         }
-
         .input-group {
             margin-bottom: 20px;
         }
-
         .input-group label {
             display: block;
             font-weight: bold;
         }
-
         .input-group input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-
         .input-group input:focus {
             outline: none;
             border-color: #007bff;
         }
-
         .btn {
             background-color: #007bff;
             color: #fff;
@@ -105,7 +82,6 @@ $conn->close();
             border-radius: 5px;
             cursor: pointer;
         }
-
         .btn:hover {
             background-color: #0056b3;
         }

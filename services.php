@@ -3,12 +3,9 @@ $dbHost = "localhost";
 $dbUser = "root"; 
 $dbPassword = ""; 
 $dbName = "exam"; 
-
 $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
-
 $sql = "SELECT * FROM services";
 $result = $conn->query($sql);
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }?>
@@ -27,7 +24,6 @@ body, ul {
 }
 table{
     width: 100%;
-
 }
 .btn-edit,
 .btn-delete {
@@ -39,23 +35,16 @@ table{
     cursor: pointer;
     margin-right: 5px;
 }
-
 .btn-delete {
     background-color: #ff3333;
 }
-
-/* Style the buttons on hover */
 .btn-edit:hover,
 .btn-delete:hover {
     background-color: #0056b3;
 }
-
-/* Style the buttons within table cells */
 td button {
     display: inline-block;
 }
-
-/* Center buttons within table cells */
 td {
     text-align: center;
     vertical-align: middle;
@@ -69,56 +58,44 @@ th,tr,td{
     padding: 10px 0;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
-
 .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 .logo {
     text-decoration: none;
     color: #fff;
     font-size: 24px;
     font-weight: bold;
 }
-
 .nav-links {
     list-style: none;
     display: flex;
 }
-
 .nav-links li {
     margin-right: 20px;
 }
-
 .nav-links a {
     text-decoration: none;
     color: #fff;
     transition: color 0.3s ease;
 }
-
 .nav-links a:hover {
     color: #ff6f61;
 }
-
-
 .content {
     text-align: center;
     padding: 40px;
 }
-
-
 @media screen and (max-width: 768px) {
     .container {
         flex-direction: column;
         align-items: flex-start;
     }
-
     .nav-links {
         margin-top: 10px;
     }
-
     .nav-links li {
         margin-right: 0;
         margin-bottom: 10px;
@@ -128,23 +105,19 @@ th,tr,td{
     border-collapse: collapse;
     margin: 20px auto;
 }
-
 .styled-table th,
 .styled-table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 }
-
 .styled-table th {
     background-color: #f2f2f2;
     font-weight: bold;
 }
-
 .styled-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
-
 .styled-table tr:hover {
     background-color: #ddd;
 }
@@ -162,10 +135,8 @@ th,tr,td{
                 <li><a href="adduser.php">add user</a></li>
                 <li><a href="monitor.php">monitor</a></li>
                 <li><a href="logout.php">logout</a></li>
-                
             </ul>
         </div>
-
     </nav>
     <div class="content">
   <h1>Services</h1>

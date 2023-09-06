@@ -1,32 +1,24 @@
 <?php
-
 $dbHost = "localhost";
 $dbUser = "root";
 $dbPassword = ""; 
 $dbName = "exam"; 
-
 $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
-
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $email = $_POST["email"];
     $password = $_POST["password"];
-
     $checkQuery = "SELECT id FROM user WHERE name = ? OR email = ?";
     $stmt = $conn->prepare($checkQuery);
     $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
     $stmt->store_result();
-
     if ($stmt->num_rows > 0) {
         echo "Username or email already exists. Please choose another.";
     } else {
-
         $insertQuery = "INSERT INTO user (name, email, password) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($insertQuery);
         $stmt->bind_param("sss", $username, $email, $password);
@@ -36,10 +28,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Error during registration. Please try again later.";
         }
     }
-
     $stmt->close();
 }
-
 ?>
 
 
@@ -54,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-family: Arial, Helvetica, sans-serif;
             background-color: #f2f2f2;
         }
-
         .container {
             max-width: 400px;
             margin: 0 auto;
@@ -63,32 +52,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 5px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-
         h2 {
             text-align: center;
         }
-
         .input-group {
             margin-bottom: 20px;
         }
-
         .input-group label {
             display: block;
             font-weight: bold;
         }
-
         .input-group input {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-
         .input-group input:focus {
             outline: none;
             border-color: #007bff;
         }
-
         .btn {
             background-color: #007bff;
             color: #fff;
@@ -97,7 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 5px;
             cursor: pointer;
         }
-
         .btn:hover {
             background-color: #0056b3;
         }
