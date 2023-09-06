@@ -1,4 +1,7 @@
 <?php 
+
+if (isset($_GET['id'])) {
+    $user_id = $_GET['id'];
 $dbHost = "localhost"; 
 $dbUser = "root"; 
 $dbPassword = ""; 
@@ -6,19 +9,41 @@ $dbName = "exam";
 
 $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
 
-$sql = "SELECT * FROM person";
-$result = $conn->query($sql);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    // Fetch the user data for editing
+    $sql = "SELECT * FROM services WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        // Fetch user data
+        $row = $result->fetch_assoc();
+        $services_name = $row['services_name'];
+        $services_date = $row['services_date'];
+        $services_client = $row['services_client'];
+       
+    } else {
+        echo "User not found.";
+        exit;
+    }
+
+    // Close the database connection
+    $conn->close();
+} else {
+    echo "User ID not provided.";
+    exit;
+
 }?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Dashboard</title>
+    <title>Update Person</title>
     <style>
 body, ul {
     margin: 0;
@@ -147,7 +172,49 @@ th,tr,td{
 .styled-table tr:hover {
     background-color: #ddd;
 }
+
 }
+body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
 </style>
 </head>
 <body>
@@ -157,46 +224,30 @@ th,tr,td{
             <ul class="nav-links">
                 <li><a href="dashboard.php">person</a></li>
                 <li><a href="services.php">services</a></li>
-                <li><a href="addservices.php">add services</a></li>
                 <li><a href="adduser.php">add user</a></li>
                 <li><a href="logout.php">logout</a></li>
-
                 
             </ul>
         </div>
     </nav>
-    <div class="content">
-  <h1>User's</h1>
-  <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>region</th>
-                    <th>contactAddress</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                foreach ($result as $person) {
-                    echo "<tr>";
-                    echo "<td>" . $person['id'] . "</td>";
-                    echo "<td>" . $person['firstName'] . " " . $person['lastName'] . "</td>";
-                    echo "<td>" . $person['region'] . "</td>";
-                    echo "<td>" . $person['contactAddress'] . "</td>";
-                    echo "<td>";
-                    echo "<button class='btn-edit'><a href='updateperson.php?id=" . $person['id'] . "'>Edit</a></button>";
-                    echo "<form method='POST' action='deleteperson.php'>";
-                    echo "<input type='hidden' name='id' value='" . $person['id'] . "'>";
-                    echo "<button type='submit' class='btn-delete'>Delete</button>";
-                    echo "</form>";
-                    echo "</td>";
-                    echo "</tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+    <div class="container">
+        <form action="saveupdateservices.php" method="post">
+            <div class="form-group">
+                <label for="services_name">Services Name:</label>
+                <input type="hidden" id="id" name="id" value="<?php echo $user_id; ?>"required>
+                <input type="text" id="services_name" name="services_name" value="<?php echo $services_name; ?>"required>
+            </div>
+            <div class="form-group">
+                <label for="services_date">Services Date:</label>
+                <input type="text" id="services_date" name="services_date"value="<?php echo $services_date; ?>">
+            </div>
+            <div class="form-group">
+                <label for="services_client">Services Client:</label>
+                <input type="text" id="services_client" name="services_client"value="<?php echo $services_client; ?>" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        
     </div>
 </body>
 </html>

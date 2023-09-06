@@ -6,12 +6,13 @@ $dbName = "exam";
 
 $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
 
-$sql = "SELECT * FROM person";
+$sql = "SELECT * FROM services";
 $result = $conn->query($sql);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -160,35 +161,35 @@ th,tr,td{
                 <li><a href="addservices.php">add services</a></li>
                 <li><a href="adduser.php">add user</a></li>
                 <li><a href="logout.php">logout</a></li>
-
                 
             </ul>
         </div>
+
     </nav>
     <div class="content">
-  <h1>User's</h1>
-  <table class="styled-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>region</th>
-                    <th>contactAddress</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
+  <h1>Services</h1>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Services Name</th>
+                <th>Services Date</th>
+                <th>Services Client</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
                 <?php
-                foreach ($result as $person) {
+                foreach ($result as $service) {
                     echo "<tr>";
-                    echo "<td>" . $person['id'] . "</td>";
-                    echo "<td>" . $person['firstName'] . " " . $person['lastName'] . "</td>";
-                    echo "<td>" . $person['region'] . "</td>";
-                    echo "<td>" . $person['contactAddress'] . "</td>";
+                    echo "<td>" . $service['id'] . "</td>";
+                    echo "<td>" . $service['services_name']."</td>";
+                    echo "<td>" . $service['services_date'] . "</td>";
+                    echo "<td>" . $service['services_client'] . "</td>";
                     echo "<td>";
-                    echo "<button class='btn-edit'><a href='updateperson.php?id=" . $person['id'] . "'>Edit</a></button>";
-                    echo "<form method='POST' action='deleteperson.php'>";
-                    echo "<input type='hidden' name='id' value='" . $person['id'] . "'>";
+                    echo "<button class='btn-edit'><a href='updateservices.php?id=" . $service['id'] . "'>Edit</a></button>";
+                    echo "<form method='POST' action='deleteservices.php'>";
+                    echo "<input type='hidden' name='id' value='" . $service['id'] . "'>";
                     echo "<button type='submit' class='btn-delete'>Delete</button>";
                     echo "</form>";
                     echo "</td>";
@@ -196,7 +197,7 @@ th,tr,td{
                 }
                 ?>
             </tbody>
-        </table>
+    </table>
     </div>
 </body>
 </html>

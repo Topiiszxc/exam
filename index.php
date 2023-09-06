@@ -1,5 +1,11 @@
 <?php
+session_start();
 
+
+if (isset($_SESSION['user_id'])) {
+    header("Location: dashboard.php");
+    exit;
+}
 $dbHost = "localhost"; 
 $dbUser = "root"; 
 $dbPassword = ""; 
@@ -11,6 +17,7 @@ $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
