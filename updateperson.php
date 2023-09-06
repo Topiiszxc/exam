@@ -29,6 +29,7 @@ $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
         $last_name = $row['lastName'];
         $region = $row['region'];
         $contactAddress = $row['contactAddress'];
+        $services_name = $row['services_name'];
     } else {
         echo "User not found.";
         exit;
@@ -230,11 +231,12 @@ body {
         <div class="container">
             <a href="#" class="logo">logo</a>
             <ul class="nav-links">
-                <li><a href="dashboard.php">person</a></li>
+            <li><a href="dashboard.php">person</a></li>
                 <li><a href="services.php">services</a></li>
+                <li><a href="addservices.php">add services</a></li>
                 <li><a href="adduser.php">add user</a></li>
+                <li><a href="monitor.php">monitor</a></li>
                 <li><a href="logout.php">logout</a></li>
-                
             </ul>
         </div>
     </nav>
@@ -261,6 +263,8 @@ body {
                 <label for="contactAddress">Contact Address:</label>
                 <input type="text" id="contactAddress" name="contactAddress"value="<?php echo $contactAddress; ?>">
             </div>
+            <input type="hidden" id="services_name" name="services_name" value="<?php echo $services_name; ?>">
+
             <button type="submit">Submit</button>
         </form>
         <?php if (isset($insert_error)) echo "<p>$insert_error</p>"; ?>

@@ -159,6 +159,7 @@ th,tr,td{
                 <li><a href="services.php">services</a></li>
                 <li><a href="addservices.php">add services</a></li>
                 <li><a href="adduser.php">add user</a></li>
+                <li><a href="monitor.php">monitor</a></li>
                 <li><a href="logout.php">logout</a></li>
 
                 
@@ -186,6 +187,7 @@ th,tr,td{
                     echo "<td>" . $person['region'] . "</td>";
                     echo "<td>" . $person['contactAddress'] . "</td>";
                     echo "<td>";
+                    echo "<button class='btn-edit'><a href='adduserservice.php?id=" . $person['id'] . "'>Add Service</a></button>";
                     echo "<button class='btn-edit'><a href='updateperson.php?id=" . $person['id'] . "'>Edit</a></button>";
                     echo "<form method='POST' action='deleteperson.php'>";
                     echo "<input type='hidden' name='id' value='" . $person['id'] . "'>";

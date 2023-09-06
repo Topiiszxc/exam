@@ -1,4 +1,13 @@
-<?php $dbHost = "localhost"; 
+<?php 
+$dbHost = "localhost"; 
+$dbUser = "root"; 
+$dbPassword = ""; 
+$dbName = "exam"; 
+
+$conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
+if (isset($_GET['id'])) {
+    $user_id = $_GET['id'];
+$dbHost = "localhost"; 
 $dbUser = "root"; 
 $dbPassword = ""; 
 $dbName = "exam"; 
@@ -6,29 +15,36 @@ $dbName = "exam";
 $conn = new mysqli($dbHost, $dbUser, $dbPassword, $dbName);
 
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $services_name = $_POST['services_name'];
-    $services_date = $_POST['services_date'];
-    $services_client = $_POST['services_client'];
-
-
-    // Insert data into the database
-    $sql = "INSERT INTO services (services_name, services_date, services_client) VALUES (?, ?, ?)";
+    $sql = "SELECT * FROM person WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $services_name, $services_date, $services_client);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($stmt->execute()) {
-        // Data insertion successful
-        header("Location: services.php"); // Redirect to a success page
-        exit;
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        $id = $row['id'];
+        $first_name = $row['firstName'];
+        $middle_name = $row['middleName'];
+        $last_name = $row['lastName'];
+        $region = $row['region'];
+        $contactAddress = $row['contactAddress'];
+        $service_name = $row['service_name'];
     } else {
-        // Data insertion failed
-        $insert_error = "Error: " . $conn->error;
+        echo "User not found.";
+        exit;
     }
+
+    
+
+    $conn->close();
+} else {
+    echo "User ID not provided.";
+    exit;
+
+
 }?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Dashboard</title>
+    <title>Update Person</title>
     <style>
 body, ul {
     margin: 0;
@@ -225,18 +241,31 @@ body {
         </div>
     </nav>
     <div class="container">
-        <form action="addservices.php" method="post">
+        <form action="saveupdateperson.php" method="post">
             <div class="form-group">
-                <label for="services_name">Services Name:</label>
-                <input type="text" id="services_name" name="services_name" required>
+                <label for="firstName">First Name:</label>
+                <input type="hidden" id="id" name="id" value="<?php echo $id; ?>"required>
+                <input type="text" id="firstName" name="firstName" value="<?php echo $first_name; ?>"required>
             </div>
             <div class="form-group">
-                <label for="services_date">Services Date:</label>
-                <input type="text" id="services_date" name="services_date">
+                <label for="middleName">Middle Name:</label>
+                <input type="text" id="middleName" name="middleName"value="<?php echo $middle_name; ?>">
             </div>
             <div class="form-group">
-                <label for="services_client">Services Client:</label>
-                <input type="text" id="services_client" name="services_client" required>
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName"value="<?php echo $last_name; ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="region">Region:</label>
+                <input type="text" id="region" name="region"value="<?php echo $region; ?>">
+            </div>
+            <div class="form-group">
+                <label for="contactAddress">Contact Address:</label>
+                <input type="text" id="contactAddress" name="contactAddress"value="<?php echo $contactAddress; ?>">
+            </div>
+            <div class="form-group">
+                <label for="service_name">Service Name:</label>
+                <input type="text" id="service_name" name="service_name" value="<?php echo $service_name; ?>">
             </div>
             <button type="submit">Submit</button>
         </form>

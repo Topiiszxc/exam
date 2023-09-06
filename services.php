@@ -156,10 +156,11 @@ th,tr,td{
         <div class="container">
             <a href="#" class="logo">logo</a>
             <ul class="nav-links">
-                <li><a href="dashboard.php">person</a></li>
+            <li><a href="dashboard.php">person</a></li>
                 <li><a href="services.php">services</a></li>
                 <li><a href="addservices.php">add services</a></li>
                 <li><a href="adduser.php">add user</a></li>
+                <li><a href="monitor.php">monitor</a></li>
                 <li><a href="logout.php">logout</a></li>
                 
             </ul>
